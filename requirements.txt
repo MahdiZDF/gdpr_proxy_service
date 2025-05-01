@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+httpx
+presidio-analyzer
+spacy
+python-dotenv
+langdetect==1.0.9
+
