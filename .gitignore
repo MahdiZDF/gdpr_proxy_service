@@ -1,0 +1,24 @@
+# Ignore Python stuff
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+
+# VSCode settings
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Environment and dependencies
+.env
+venv/
+.env.*
+node_modules/
