@@ -12,6 +12,8 @@ RUN python -m spacy download de_core_news_lg
 
 
 COPY app/ ./app/
+COPY data/ data/
+
 
 EXPOSE 8000
 

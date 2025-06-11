@@ -1,6 +1,10 @@
 from langdetect import detect
 from presidio_analyzer import AnalyzerEngine, RecognizerRegistry, PatternRecognizer, Pattern
 from presidio_analyzer.nlp_engine import NlpEngineProvider
+from app.public_figures_loader import load_public_figures
+
+PUBLIC_FIGURES = load_public_figures()
+
 
 # language detection
 def detect_language(text: str) -> str:
@@ -77,6 +81,12 @@ def redact_pii(text: str, analyzer: AnalyzerEngine) -> str:
     offset = 0
     for result in sorted(results, key=lambda x: x.start):
         if result.entity_type in entities:
+            detected_text = text[result.start:result.end]
+            
+            # Skip redaction if it's a known public figure
+            if result.entity_type == "PERSON" and detected_text in PUBLIC_FIGURES:
+                continue
+             # Redact detected entity
             start, end = result.start + offset, result.end + offset
             redacted_text = redacted_text[:start] + "[REDACTED]" + redacted_text[end:]
             offset += len("[REDACTED]") - (end - start)
