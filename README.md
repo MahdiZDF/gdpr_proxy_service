@@ -317,3 +317,54 @@ Language is auto-detected using spaCy and the correct model is applied (`en_core
 This proxy is designed for **internal use** to protect user data. Do not expose it directly to untrusted external traffic without proper rate limiting and authentication.
 
 ---
+---
+
+## 🧠 Erweiterung: Prominente Personen (Deutsch)
+
+Das System verwendet jetzt eine vorab gespeicherte JSON-Datei mit über **125.000 deutschen prominenten Personen** (aus Wikidata), um sicherzustellen, dass öffentlich bekannte Namen **nicht** fälschlicherweise geschwärzt werden.
+
+- Quelle: [Wikidata SPARQL](https://query.wikidata.org/)
+- Berufe: Politiker, Schauspieler, Musiker, Sportler, Autoren usw.
+- Format: `data/public_figures_de.json`
+
+Beispiel:
+```json
+[{"personLabel":"Angela Merkel"}, {"personLabel":"Friedrich Merz"}, {"personLabel":"Steffi Graf"}]
+```
+
+Diese Liste wird beim Start der Anwendung geladen und mit PII-Ergebnissen verglichen. Wenn ein erkannter Name in dieser Liste ist, wird er **nicht geschwärzt**.
+
+---
+
+## 📁 Zusätzliche Dateien
+
+| Datei | Zweck |
+|-------|-------|
+| `data/public_figures_de.json` | Liste von öffentlichen Personen (Deutschland) zur Ausnahmelogik bei der Redaktion |
+| `public_figures_loader.py` | Lädt JSON-Datei mit bekannten Namen und stellt sie dem Filter zur Verfügung |
+
+---
+
+## 🧠 Extension: Public Figures Dataset (English)
+
+The system now uses a pre-loaded JSON dataset with over **125,000 German public figures** (from Wikidata) to ensure well-known names are **not mistakenly redacted**.
+
+- Source: [Wikidata SPARQL](https://query.wikidata.org/)
+- Occupations: Politicians, actors, musicians, authors, athletes, etc.
+- Format: `data/public_figures_de.json`
+
+Example:
+```json
+[{"personLabel":"Angela Merkel"}, {"personLabel":"Friedrich Merz"}, {"personLabel":"Steffi Graf"}]
+```
+
+This file is loaded during startup and compared against detected names. If a match is found, the name is **preserved** in the prompt sent to OpenAI.
+
+---
+
+## 📁 Additional Files
+
+| File | Purpose |
+|------|---------|
+| `data/public_figures_de.json` | Stores list of public German figures to skip redaction |
+| `public_figures_loader.py` | Loads and parses this list for redaction exemption |
